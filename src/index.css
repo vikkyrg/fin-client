@@ -1,0 +1,99 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply text-slate-700 bg-white selection:bg-brand-orange selection:text-white font-['Plus_Jakarta_Sans',sans-serif] antialiased;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-brand-blue tracking-tight font-bold;
+  }
+}
+
+/* Refined Institutional Elevation and Transitions */
+.subtle-border {
+  border-color: #E2E8F0;
+}
+
+.card-elevation {
+  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.05), 0 1px 2px -1px rgba(15, 23, 42, 0.05);
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+}
+
+.card-elevation:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -3px rgba(23, 74, 139, 0.08), 0 4px 6px -4px rgba(23, 74, 139, 0.04);
+  border-color: #CBD5E1;
+}
+
+/* Animated Nav Item Underline */
+.nav-link-underline {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  color: #174A8B;
+  transition: color 200ms ease;
+}
+
+.nav-link-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #174A8B;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 220ms cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 9999px;
+}
+
+.nav-link-underline:hover::after,
+.nav-link-underline.active::after {
+  transform: scaleX(1);
+}
+
+/* Accessible reduced-motion support */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Consistent Button System Classes */
+.btn-primary {
+  background-color: #174A8B;
+  color: #FFFFFF;
+  transition: background-color 200ms ease, box-shadow 200ms ease;
+}
+.btn-primary:hover {
+  background-color: #0F3463;
+}
+
+.btn-secondary {
+  background-color: #FFFFFF;
+  color: #174A8B;
+  border: 1px solid #CBD5E1;
+  transition: background-color 200ms ease, border-color 200ms ease;
+}
+.btn-secondary:hover {
+  background-color: #F8FAFC;
+  border-color: #174A8B;
+}
+
+.btn-cta {
+  background-color: #F28C28;
+  color: #FFFFFF;
+  box-shadow: 0 2px 4px 0 rgba(242, 140, 40, 0.15);
+  transition: background-color 200ms ease, box-shadow 200ms ease;
+}
+.btn-cta:hover {
+  background-color: #DC7815;
+  box-shadow: 0 4px 8px 0 rgba(242, 140, 40, 0.25);
+}
