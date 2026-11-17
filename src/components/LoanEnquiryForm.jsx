@@ -26,7 +26,10 @@ const LoanEnquiryForm = ({ loanType, loanTitle }) => {
     studyLocation: 'Domestic (India)',
     educationExpenses: '',
     approximateGoldWeight: '',
-    goldPurity: '22K'
+    goldPurity: '22K',
+    vehicleType: 'New Car',
+    vehicleModel: '',
+    onRoadPrice: ''
   });
 
   const [loading, setLoading] = useState(false);
@@ -183,6 +186,14 @@ const LoanEnquiryForm = ({ loanType, loanTitle }) => {
         payload.loanDetails = {
           approximateGoldWeight: Number(formData.approximateGoldWeight),
           goldPurity: formData.goldPurity
+        };
+        break;
+
+      case 'vehicle-loan':
+        payload.loanDetails = {
+          vehicleType: formData.vehicleType,
+          vehicleModel: formData.vehicleModel.trim() || undefined,
+          onRoadPrice: formData.onRoadPrice ? Number(formData.onRoadPrice) : undefined
         };
         break;
 
@@ -646,6 +657,51 @@ const LoanEnquiryForm = ({ loanType, loanTitle }) => {
                   <option value="20K">20 Karat</option>
                   <option value="18K">18 Karat</option>
                 </select>
+              </div>
+            </div>
+          )}
+
+          {/* 8. Vehicle Loan */}
+          {loanType === 'vehicle-loan' && (
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1.5">Vehicle Category</label>
+                  <select
+                    name="vehicleType"
+                    value={formData.vehicleType}
+                    onChange={handleChange}
+                    className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue"
+                  >
+                    <option value="New Car">Brand New Four-Wheeler (Car/SUV)</option>
+                    <option value="Pre-Owned Car">Certified Pre-Owned / Used Car</option>
+                    <option value="Electric Vehicle (EV)">Electric Vehicle (EV)</option>
+                    <option value="Commercial Vehicle">Commercial Vehicle / Fleet</option>
+                    <option value="Two Wheeler">Two Wheeler (Bike / Scooter)</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1.5">Preferred Vehicle Model</label>
+                  <input
+                    type="text"
+                    name="vehicleModel"
+                    value={formData.vehicleModel}
+                    onChange={handleChange}
+                    placeholder="e.g. Hyundai Creta, Tata Nexon"
+                    className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1.5">Approx. On-Road / Quotation Price (₹)</label>
+                <input
+                  type="number"
+                  name="onRoadPrice"
+                  value={formData.onRoadPrice}
+                  onChange={handleChange}
+                  placeholder="e.g. 1400000"
+                  className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue"
+                />
               </div>
             </div>
           )}

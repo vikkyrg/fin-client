@@ -17,12 +17,6 @@ export const enquiryService = {
   submitEnquiry: (enquiryData) => api.post('/enquiries/submit', enquiryData),
 };
 
-export const blogService = {
-  getBlogs: (params) => api.get('/blogs', { params }),
-  getBlogBySlug: (slug) => api.get(`/blogs/${slug}`),
-  getCategories: () => api.get('/blogs/categories'),
-};
-
 export const contentService = {
   getFAQs: (category) => api.get('/content/faqs', { params: { category } }),
   getPartners: () => api.get('/content/partners'),

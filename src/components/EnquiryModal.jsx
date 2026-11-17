@@ -149,6 +149,7 @@ const EnquiryModal = ({ isOpen, onClose, defaultLoan = 'personal-loan' }) => {
                     <option value="loan-against-property">Loan Against Property (Residential / Commercial)</option>
                     <option value="education-loan">Education Loan (Domestic & Overseas)</option>
                     <option value="gold-loan">Gold Loan (Instant disbursement)</option>
+                    <option value="vehicle-loan">Vehicle Loan (New & used cars, up to 7 yrs)</option>
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500">
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

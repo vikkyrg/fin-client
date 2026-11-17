@@ -5,13 +5,15 @@ import {
   UserCheck, TrendingUp, Briefcase, Home, Building2, GraduationCap, 
   Coins, HelpCircle, Landmark, Layers, Award, Sparkles, User,
   FileCheck, BadgePercent, Clock, Handshake, SlidersHorizontal, FileText,
-  FileEdit, Search, FileBadge, Banknote
+  FileEdit, Search, FileBadge, Banknote, CarFront
 } from 'lucide-react';
-import { loanService, blogService, contentService } from '../services/api';
+import { loanService, contentService } from '../services/api';
+import { BLOG_ARTICLES } from '../data/blogData';
 import EnquiryModal from '../components/EnquiryModal';
+import EditorialFinancialBackground from '../components/EditorialFinancialBackground';
+import KnowledgeCentreBackground from '../components/KnowledgeCentreBackground';
+import HomeHeroSection from '../components/HomeHeroSection';
 import { ScrollReveal, StaggerContainer, StaggerItem } from '../components/ScrollReveal';
-import heroBgImage from '../assets/home.png';
-import mobileHero from '../assets/mobile.png';
 
 // Loan Card Images cropped exactly from the reference design
 import personalLoanImg from '../assets/loans/personal-loan.jpg';
@@ -21,6 +23,7 @@ import homeLoanImg from '../assets/loans/home-loan.jpg';
 import propertyLoanImg from '../assets/loans/loan-against-property.jpg';
 import educationLoanImg from '../assets/loans/education-loan.jpg';
 import goldLoanImg from '../assets/loans/gold-loan.jpg';
+import vehicleLoanImg from '../assets/loans/car.png';
 
 const LOAN_IMAGE_MAP = {
   'personal-loan': personalLoanImg,
@@ -29,7 +32,8 @@ const LOAN_IMAGE_MAP = {
   'home-loan': homeLoanImg,
   'loan-against-property': propertyLoanImg,
   'education-loan': educationLoanImg,
-  'gold-loan': goldLoanImg
+  'gold-loan': goldLoanImg,
+  'vehicle-loan': vehicleLoanImg
 };
 
 const DEFAULT_LOAN_DATA = [
@@ -88,6 +92,14 @@ const DEFAULT_LOAN_DATA = [
     indicativeInterestRate: '8.85% – 14.00% p.a.',
     maxTenure: '3 to 24 Months',
     icon: 'Coins'
+  },
+  {
+    slug: 'vehicle-loan',
+    name: 'Vehicle Loan',
+    shortDescription: 'Financing for new and used cars with flexible tenures and competitive interest rates.',
+    indicativeInterestRate: '8.75% – 14.50% p.a.',
+    maxTenure: 'Up to 7 Years',
+    icon: 'CarFront'
   }
 ];
 
@@ -98,7 +110,9 @@ const ICON_MAP = {
   'Home': Home,
   'Building2': Building2,
   'GraduationCap': GraduationCap,
-  'Coins': Coins
+  'Coins': Coins,
+  'CarFront': CarFront,
+  'User': User
 };
 
 const HomePage = () => {
@@ -116,18 +130,18 @@ const HomePage = () => {
 
     Promise.all([
       loanService.getAllLoans().catch(() => ({ data: { data: [] } })),
-      blogService.getBlogs({ limit: 3 }).catch(() => ({ data: { data: { blogs: [] } } })),
       contentService.getPartners().catch(() => ({ data: { data: [] } })),
       contentService.getNews().catch(() => ({ data: { data: [] } })),
       contentService.getFAQs('General').catch(() => ({ data: { data: [] } })),
       contentService.getPageContent('home').catch(() => ({ data: { data: null } }))
-    ]).then(([loansRes, blogsRes, partnersRes, newsRes, faqsRes, cmsRes]) => {
+    ]).then(([loansRes, partnersRes, newsRes, faqsRes, cmsRes]) => {
       if (loansRes.data?.data) setLoans(loansRes.data.data);
-      if (blogsRes.data?.data?.blogs) setBlogs(blogsRes.data.data.blogs);
       if (partnersRes.data?.data) setPartners(partnersRes.data.data);
       if (newsRes.data?.data) setNews(newsRes.data.data);
       if (faqsRes.data?.data) setFaqs(faqsRes.data.data);
       if (cmsRes.data?.data?.sections) setHomeCms(cmsRes.data.data.sections);
+      // Static articles for knowledge centre section
+      setBlogs(BLOG_ARTICLES.slice(0, 3));
     });
   }, []);
 
@@ -140,114 +154,14 @@ const HomePage = () => {
     <div className="bg-white font-['Plus_Jakarta_Sans',sans-serif]">
       
       {/* ============================================================== */}
-      {/* 1. HERO SECTION - RESPONSIVE (DESKTOP: home.png | MOBILE: mobile.png) */}
+      {/* 1. HERO SECTION - WITH EMBEDDED COMPACT LOAN CATEGORY ICONS     */}
       {/* ============================================================== */}
-      <section className="relative w-full overflow-hidden">
-        {/* Desktop & Tablet Background (md and up: 768px+) */}
-        <div 
-          className="hidden md:block absolute inset-0 w-full h-full bg-cover bg-no-repeat bg-right lg:bg-center"
-          style={{ backgroundImage: `url(${heroBgImage})` }}
-        />
-
-        {/* Mobile Background: full cover so mobile.png completely fills the section without top white blank gap */}
-        <div 
-          className="block md:hidden absolute inset-0 w-full h-full bg-cover bg-no-repeat bg-top pointer-events-none"
-          style={{ backgroundImage: `url(${mobileHero})` }}
-        />
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-72 sm:pb-80 md:py-16 lg:py-20 w-full relative z-10 min-h-[620px] md:min-h-[580px] lg:min-h-[660px] flex items-start md:items-center">
-          <div className="max-w-2xl xl:max-w-3xl space-y-5 sm:space-y-6">
-            
-            {/* Trust Badge with Rounded Pill & Green Shield: Fade Down */}
-            <ScrollReveal type="fade-down" delay={0.05} duration={0.6}>
-              <div className="inline-flex items-center space-x-2 bg-emerald-50/90 border border-emerald-200 px-3.5 sm:px-4 py-1.5 rounded-full shadow-sm">
-                <span className="w-4 h-4 rounded-full bg-[#159B69] text-white flex items-center justify-center shrink-0">
-                  <ShieldCheck className="w-3 h-3 text-white" />
-                </span>
-                <span className="text-[11px] sm:text-xs font-bold text-slate-800 tracking-tight">
-                  Trusted by 50,000+ Borrowers Across India
-                </span>
-              </div>
-            </ScrollReveal>
-
-            {/* Exact High-Impact Bold Navy Headline: Fade Up */}
-            <ScrollReveal type="fade-up" delay={0.12} duration={0.65}>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[54px] font-black text-[#174A8B] leading-[1.15] tracking-tight">
-                Simplifying Loans with Transparent Expert Advisory
-              </h1>
-            </ScrollReveal>
-
-            {/* Clean Readable Description: Fade Up */}
-            <ScrollReveal type="fade-up" delay={0.2} duration={0.65}>
-              <p className="text-sm sm:text-base md:text-lg text-slate-700 leading-relaxed font-normal max-w-xl">
-                Compare and access the best Personal Loans, Home Loans, Business Financing, and Loans Against Securities from India’s leading Banks & NBFCs with zero hassle.
-              </p>
-            </ScrollReveal>
-
-            {/* Dual Action Buttons: Fade Up */}
-            <ScrollReveal type="fade-up" delay={0.28} duration={0.65}>
-              <div className="pt-2 flex flex-wrap gap-3.5 sm:gap-4 items-center">
-                <button
-                  onClick={() => openEnquiry('personal-loan')}
-                  className="inline-flex items-center justify-center px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl font-bold text-xs sm:text-sm text-white bg-[#F28C28] hover:bg-[#DC7815] transition shadow-md shadow-orange-500/25 active:scale-95 cursor-pointer"
-                >
-                  <span>Enquire Now</span>
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </button>
-
-                <a
-                  href="#loans"
-                  className="inline-flex items-center justify-center px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl font-bold text-xs sm:text-sm text-[#174A8B] bg-white border-2 border-[#174A8B] hover:bg-blue-50 transition active:scale-95 shadow-sm"
-                >
-                  <Layers className="w-4 h-4 mr-2 text-[#174A8B]" />
-                  <span>Explore Loans</span>
-                </a>
-              </div>
-            </ScrollReveal>
-
-            {/* 3 Metrics in Single Line at Bottom Left: Staggered Fade Up */}
-            <ScrollReveal type="fade-up" delay={0.35} duration={0.65}>
-              <div className="pt-6 sm:pt-8 grid grid-cols-3 gap-2 sm:gap-4 border-t border-slate-200/90 max-w-lg">
-                <div className="flex items-center space-x-2 sm:space-x-3">
-                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-emerald-50 text-[#159B69] flex items-center justify-center shrink-0">
-                    <Landmark className="w-4 h-4 sm:w-5 sm:h-5 text-[#159B69]" />
-                  </div>
-                  <div>
-                    <p className="text-base sm:text-lg font-black text-[#174A8B] leading-none">20+</p>
-                    <p className="text-[10px] sm:text-[11px] text-slate-600 font-semibold mt-0.5 sm:mt-1">Lending Partners</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center space-x-2 sm:space-x-3">
-                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-emerald-50 text-[#159B69] flex items-center justify-center shrink-0">
-                    <Layers className="w-4 h-4 sm:w-5 sm:h-5 text-[#159B69]" />
-                  </div>
-                  <div>
-                    <p className="text-base sm:text-lg font-black text-[#174A8B] leading-none">₹500Cr+</p>
-                    <p className="text-[10px] sm:text-[11px] text-slate-600 font-semibold mt-0.5 sm:mt-1">Facilitated Volume</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center space-x-2 sm:space-x-3">
-                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-emerald-50 text-[#159B69] flex items-center justify-center shrink-0">
-                    <ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5 text-[#159B69]" />
-                  </div>
-                  <div>
-                    <p className="text-base sm:text-lg font-black text-[#174A8B] leading-none">Zero</p>
-                    <p className="text-[10px] sm:text-[11px] text-slate-600 font-semibold mt-0.5 sm:mt-1">Advisory Charges</p>
-                  </div>
-                </div>
-              </div>
-            </ScrollReveal>
-
-          </div>
-        </div>
-      </section>
+      <HomeHeroSection onOpenEnquiry={openEnquiry} />
 
       {/* ============================================================== */}
       {/* 2. SEVEN LOAN CATEGORIES GRID SECTION - EXACT REFERENCE DESIGN */}
       {/* ============================================================== */}
-      <section id="loans" className="relative py-20 bg-gradient-to-b from-[#F3F8FD] via-[#F8FBFE] to-white overflow-hidden">
+      <section id="loans" className="relative pt-16 sm:pt-20 pb-20 sm:pb-24 bg-gradient-to-b from-[#F3F8FD] via-[#F8FBFE] to-white overflow-hidden">
         
         {/* Soft flowing wave background accents */}
         <div className="absolute top-0 left-0 w-96 h-96 bg-blue-100/50 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
@@ -285,7 +199,8 @@ const HomePage = () => {
               'home-loan',
               'loan-against-property',
               'education-loan',
-              'gold-loan'
+              'gold-loan',
+              'vehicle-loan'
             ];
 
             const loanList = orderedSlugs.map((slug) => {
@@ -305,7 +220,7 @@ const HomePage = () => {
             });
 
             const row1 = loanList.slice(0, 4);
-            const row2 = loanList.slice(4, 7);
+            const row2 = loanList.slice(4, 8);
 
             const renderCard = (loan) => {
               const Icon = ICON_MAP[loan.icon] || UserCheck;
@@ -379,22 +294,22 @@ const HomePage = () => {
                     </div>
                   </div>
 
-                  {/* Bottom: Action Buttons */}
-                  <div className="p-6 pt-3 shrink-0">
-                    <div className="pt-3 border-t border-slate-100 grid grid-cols-2 gap-2.5">
+                  {/* Bottom: Action Buttons (Equal 50:50 Width, 42px Height, Consistent Bottom Alignment) */}
+                  <div className="p-5 sm:p-6 pt-0 mt-auto shrink-0">
+                    <div className="pt-3.5 border-t border-slate-100 flex items-center gap-2">
                       <Link
                         to={`/loans/${loan.slug}`}
-                        className="inline-flex items-center justify-center py-2.5 px-3 rounded-xl bg-white border border-blue-200 text-[#174A8B] font-bold text-xs hover:bg-blue-50/70 hover:border-[#174A8B] transition-all text-center"
+                        className="flex-1 h-[42px] px-2.5 rounded-[10px] bg-white border border-[#2879D8] text-[#123B75] hover:text-[#0F2F5E] hover:bg-[#EAF4FF] hover:border-[#1769E8] font-semibold text-[13px] inline-flex items-center justify-center transition-all duration-200 text-center group/btn truncate shadow-2xs"
                       >
-                        <span>View Details</span>
-                        <ChevronRight className="w-3.5 h-3.5 ml-0.5" />
+                        <span className="truncate">View Details</span>
+                        <ChevronRight className="w-3.5 h-3.5 ml-1 shrink-0 text-[#2879D8] transition-transform duration-200 group-hover/btn:translate-x-0.5" />
                       </Link>
 
                       <button
                         onClick={() => openEnquiry(loan.slug)}
-                        className="inline-flex items-center justify-center py-2.5 px-3 rounded-xl bg-[#F28C28] hover:bg-[#DC7815] text-white font-bold text-xs shadow-sm hover:shadow-md transition-all text-center cursor-pointer active:scale-95"
+                        className="flex-1 h-[42px] px-2.5 rounded-[10px] bg-[#F28C28] hover:bg-[#DC7815] text-white font-semibold text-[13px] inline-flex items-center justify-center transition-all duration-200 text-center shadow-xs hover:shadow-md cursor-pointer active:scale-95 truncate"
                       >
-                        Enquire
+                        <span className="truncate">Enquire</span>
                       </button>
                     </div>
                   </div>
@@ -409,17 +324,9 @@ const HomePage = () => {
                   {row1.map(renderCard)}
                 </div>
 
-                {/* Row 2: 3 Cards Centered on Desktop with EXACT SAME CARD WIDTH as Row 1 */}
+                {/* Row 2: 4 Cards on Desktop */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                  <div className="hidden lg:block lg:col-span-4">
-                    <div className="grid grid-cols-3 gap-6 max-w-[calc(75%-0.375rem)] mx-auto">
-                      {row2.map(renderCard)}
-                    </div>
-                  </div>
-                  {/* Tablet and Mobile view for Row 2 cards */}
-                  <div className="contents lg:hidden">
-                    {row2.map(renderCard)}
-                  </div>
+                  {row2.map(renderCard)}
                 </div>
               </StaggerContainer>
             );
@@ -431,10 +338,9 @@ const HomePage = () => {
       {/* ============================================================== */}
       {/* 3. ABOUT US INTRO & WHY CHOOSE US - REDESIGNED PREMIUM SECTION */}
       {/* ============================================================== */}
-      <section className="relative py-20 lg:py-24 bg-gradient-to-b from-white via-[#F6FAFE] to-white border-y border-blue-100/60 overflow-hidden">
-        {/* Soft flowing wave background accents */}
-        <div className="absolute top-1/4 -left-32 w-96 h-96 bg-blue-100/40 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-10 right-0 w-[450px] h-[450px] bg-emerald-50/40 rounded-full blur-3xl pointer-events-none" />
+      <section className="relative py-20 lg:py-24 border-y border-blue-100/60 overflow-hidden">
+        {/* Editorial Financial Background (Blue on left, Mint-Green on right, fine-line geometry) */}
+        <EditorialFinancialBackground />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
@@ -829,50 +735,55 @@ const HomePage = () => {
       {/* 6. KNOWLEDGE CENTRE & LATEST BLOGS                            */}
       {/* ============================================================== */}
       {blogs.length > 0 && (
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <ScrollReveal type="fade-up" delay={0.05}>
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
-              <div>
-                <span className="text-[11px] font-bold uppercase tracking-wider text-[#174A8B] bg-blue-50 px-3 py-1 rounded-full">
-                  Financial Awareness
-                </span>
-                <h2 className="text-2xl sm:text-4xl font-extrabold text-[#174A8B] mt-3 tracking-tight">
-                  Knowledge Centre & Advisory Insights
-                </h2>
-              </div>
-              <Link to="/blogs" className="text-sm font-bold text-[#174A8B] hover:underline flex items-center">
-                <span>View all articles</span>
-                <ArrowRight className="w-4 h-4 ml-1" />
-              </Link>
-            </div>
-          </ScrollReveal>
+        <section className="relative py-18 lg:py-22 border-t border-blue-100/60 overflow-hidden">
+          {/* Knowledge Centre Premium Abstract Financial Background */}
+          <KnowledgeCentreBackground />
 
-          <StaggerContainer staggerDelay={0.1} className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {blogs.map(blog => (
-              <StaggerItem key={blog._id} type="fade-up">
-                <div className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden flex flex-col justify-between h-full">
-                  <div className="p-6">
-                    <span className="text-[11px] font-bold text-[#174A8B] bg-blue-50 px-2.5 py-0.5 rounded">
-                      {blog.category}
-                    </span>
-                    <h3 className="font-bold text-[#174A8B] text-base mt-3 mb-2 line-clamp-2 hover:underline">
-                      <Link to={`/blogs/${blog.slug}`}>{blog.title}</Link>
-                    </h3>
-                    <p className="text-xs text-slate-500 line-clamp-3 leading-relaxed">
-                      {blog.summary}
-                    </p>
-                  </div>
-                  <div className="px-6 py-3.5 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-                    <span>{blog.readTime || '5 min read'}</span>
-                    <Link to={`/blogs/${blog.slug}`} className="font-bold text-[#174A8B] hover:underline flex items-center">
-                      <span>Read Guide</span>
-                      <ChevronRight className="w-3.5 h-3.5 ml-0.5" />
-                    </Link>
-                  </div>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <ScrollReveal type="fade-up" delay={0.05}>
+              <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
+                <div>
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#174A8B] bg-white/95 border border-blue-200/80 px-3.5 py-1 rounded-full shadow-2xs">
+                    Financial Awareness
+                  </span>
+                  <h2 className="text-2xl sm:text-4xl font-extrabold text-[#174A8B] mt-3 tracking-tight">
+                    Knowledge Centre & Advisory Insights
+                  </h2>
                 </div>
-              </StaggerItem>
-            ))}
-          </StaggerContainer>
+                <Link to="/blogs" className="text-sm font-bold text-[#174A8B] hover:text-[#2563EB] hover:underline flex items-center transition-colors">
+                  <span>View all articles</span>
+                  <ArrowRight className="w-4 h-4 ml-1" />
+                </Link>
+              </div>
+            </ScrollReveal>
+
+            <StaggerContainer staggerDelay={0.1} className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {blogs.map(blog => (
+                <StaggerItem key={blog.id || blog._id} type="fade-up">
+                  <div className="bg-white rounded-2xl border border-blue-100/90 shadow-[0_4px_20px_rgba(23,74,139,0.04)] hover:shadow-[0_14px_32px_rgba(23,74,139,0.1)] hover:border-blue-300 hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col justify-between h-full group">
+                    <div className="p-6">
+                      <span className="text-[11px] font-bold text-[#174A8B] bg-blue-50/90 border border-blue-100 px-2.5 py-0.5 rounded">
+                        {blog.category}
+                      </span>
+                      <h3 className="font-bold text-[#174A8B] text-base mt-3 mb-2 line-clamp-2 group-hover:text-[#2563EB] transition-colors">
+                        <Link to={`/blogs/${blog.slug}`}>{blog.title}</Link>
+                      </h3>
+                      <p className="text-xs text-slate-500 line-clamp-3 leading-relaxed">
+                        {blog.shortDescription || blog.summary}
+                      </p>
+                    </div>
+                    <div className="px-6 py-3.5 bg-slate-50/80 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                      <span>{blog.readTime || '5 min read'}</span>
+                      <Link to={`/blogs/${blog.slug}`} className="font-bold text-[#174A8B] group-hover:text-[#2563EB] hover:underline flex items-center transition-colors">
+                        <span>Read Guide</span>
+                        <ChevronRight className="w-3.5 h-3.5 ml-0.5" />
+                      </Link>
+                    </div>
+                  </div>
+                </StaggerItem>
+              ))}
+            </StaggerContainer>
+          </div>
         </section>
       )}
 

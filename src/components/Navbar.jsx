@@ -3,7 +3,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { 
   Phone, Mail, ChevronDown, Menu, X, ShieldCheck, 
   Headphones, UserCheck, TrendingUp, Briefcase, 
-  Home, Building2, GraduationCap, Coins, ArrowRight
+  Home, Building2, GraduationCap, Coins, CarFront, ArrowRight
 } from 'lucide-react';
 import { contentService } from '../services/api';
 
@@ -15,6 +15,7 @@ const LOANS_MENU = [
   { name: 'Loan Against Property', slug: 'loan-against-property', desc: 'Unlock value in residential or commercial real estate', icon: Building2, rate: 'From 9.15%' },
   { name: 'Education Loan', slug: 'education-loan', desc: 'Comprehensive domestic & overseas study funding', icon: GraduationCap, rate: 'From 9.50%' },
   { name: 'Gold Loan', slug: 'gold-loan', desc: 'Instant cash with secure bank-vault custody', icon: Coins, rate: 'From 8.85%' },
+  { name: 'Vehicle Loan', slug: 'vehicle-loan', desc: 'New and used car finance with low EMIs', icon: CarFront, rate: 'From 8.75%' },
 ];
 
 const Navbar = ({ onOpenEnquiry }) => {
@@ -48,7 +49,7 @@ const Navbar = ({ onOpenEnquiry }) => {
               <span className="w-4 h-4 rounded-full bg-white/20 text-[#159B69] flex items-center justify-center mr-1.5 shrink-0">
                 <ShieldCheck className="w-3 h-3 text-[#159B69]" />
               </span>
-              RBI Registered Lending Partners Facilitation
+              India's Trusted Loan Consultation Gateway
             </span>
             <span className="text-blue-300/60">|</span>
             <span className="text-blue-100 font-normal">
@@ -81,21 +82,21 @@ const Navbar = ({ onOpenEnquiry }) => {
 
       {/* 2. Main Navigation Bar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-slate-100/80">
-        <div className="flex items-center justify-between h-20 gap-4">
+        <div className="flex items-center justify-between h-16 sm:h-20 gap-4">
           
           {/* LEFT: Exact Brand Identity */}
-          <Link to="/" className="flex items-center space-x-3 shrink-0 group">
-            <div className="w-10 h-10 rounded-xl bg-[#174A8B] flex items-center justify-center text-white font-extrabold text-lg shadow-sm">
+          <Link to="/" className="flex items-center space-x-2.5 sm:space-x-3 shrink-0 group">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#174A8B] flex items-center justify-center text-white font-extrabold text-base sm:text-lg shadow-sm">
               FA
             </div>
             <div className="min-w-0">
               <div className="flex items-center">
-                <span className="text-2xl font-black text-[#174A8B] tracking-tight">FinAdvise</span>
-                <span className="ml-1.5 px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-wider text-[#F28C28] border border-[#F28C28]/40 rounded-full">
+                <span className="text-xl sm:text-2xl font-black text-[#174A8B] tracking-tight">FinAdvise</span>
+                <span className="ml-1.5 px-1.5 sm:px-2 py-0.5 text-[8.5px] sm:text-[9px] font-extrabold uppercase tracking-wider text-[#F28C28] border border-[#F28C28]/40 rounded-full">
                   LOANS
                 </span>
               </div>
-              <p className="text-[9px] text-slate-400 font-bold tracking-widest uppercase mt-0.5">
+              <p className="text-[8px] sm:text-[9px] text-slate-400 font-bold tracking-widest uppercase mt-0.5">
                 SMARTER FINANCING GATEWAY
               </p>
             </div>

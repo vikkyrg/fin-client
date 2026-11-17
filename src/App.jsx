@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout';
+import ScrollToTop from './components/ScrollToTop';
 import HomePage from './pages/HomePage';
 import LoansListingPage from './pages/LoansListingPage';
 import LoanDetailPage from './pages/LoanDetailPage';
@@ -17,8 +18,10 @@ import TermsPage from './pages/TermsPage';
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<MainLayout />}>
+    <>
+      <ScrollToTop />
+      <Routes>
+        <Route path="/" element={<MainLayout />}>
         <Route index element={<HomePage />} />
         <Route path="about-us" element={<AboutUsPage />} />
         
@@ -42,6 +45,7 @@ function App() {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>
+    </>
   );
 }
 

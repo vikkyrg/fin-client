@@ -1,4 +1,4 @@
-import { UserCheck, TrendingUp, Briefcase, Home, Building2, GraduationCap, Coins } from 'lucide-react';
+import { UserCheck, TrendingUp, Briefcase, Home, Building2, GraduationCap, Coins, CarFront } from 'lucide-react';
 
 export const LOAN_PRODUCTS_DATA = [
   {
@@ -367,6 +367,60 @@ export const LOAN_PRODUCTS_DATA = [
       { question: 'What is a bullet repayment scheme in gold loans?', answer: 'In bullet repayment, you pay neither principal nor monthly interest during the tenure. The entire principal plus accumulated interest is paid as a single lump-sum at the end of the loan tenure.' },
       { question: 'Can I repay early and retrieve my gold without penalty?', answer: 'Yes. Most gold loan partners allow early repayment anytime without foreclosure penalties, releasing your gold immediately upon closure.' },
       { question: 'What happens if gold market prices drop significantly?', answer: 'Under RBI guidelines, if market prices fall significantly, the lender may request a small margin adjustment or part-payment to maintain the mandatory 75% LTV.' }
+    ],
+    isPublished: true
+  },
+  {
+    slug: 'vehicle-loan',
+    name: 'Vehicle Loan',
+    tagline: 'Financing for new and used cars with flexible tenures and competitive interest rates',
+    icon: 'CarFront',
+    heroImage: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=80',
+    orderIndex: 8,
+    indicativeInterestRate: '8.75% - 14.50% p.a.',
+    maxTenure: 'Up to 7 Years',
+    maxLoanAmount: 'Up to ₹1.5 Crores',
+    processingFee: '0.5% - 1.5% + GST',
+    shortDescription: 'Financing for new and used cars with flexible tenures and competitive interest rates.',
+    overview: 'A Vehicle Loan provides tailored financing solutions to help you purchase your dream new car, certified pre-owned vehicle, or commercial vehicle. With financing up to 100% on-road funding from top partner banks, minimal documentation, instant digital sanctions, and extended repayment tenures up to 7 years, drive home your preferred vehicle with complete peace of mind.',
+    keyBenefits: [
+      { title: 'Up to 100% On-Road Funding', description: 'Comprehensive finance covering ex-showroom price, registration, road tax, and comprehensive insurance.' },
+      { title: 'Flexible Tenures Up to 7 Years', description: 'Structure manageable monthly EMIs spanning 12 to 84 months tailored to your personal cash flow.' },
+      { title: 'Multi-Bank Interest Comparison', description: 'Access competitive interest rates from 20+ leading public/private banks and verified auto NBFCs.' },
+      { title: 'Minimal Digital Paperwork', description: 'Paperless digital application, instant e-KYC, and rapid sanction within 24 to 48 hours.' },
+      { title: 'New & Pre-Owned Car Finance', description: 'Dedicated financing packages available for brand-new models as well as certified used cars.' },
+      { title: 'Part-Prepayment Facilities', description: 'Convenient part-payment options available to lower your interest outflow without heavy penalties.' }
+    ],
+    features: [
+      { title: 'Fixed Interest Rates', description: 'Predictable monthly EMIs throughout the loan tenure unaffected by market volatility.' },
+      { title: 'Dealership Coordination', description: 'Direct disbursal and tie-up with authorized automobile dealerships across India.' },
+      { title: 'Special EV Subsidies', description: 'Concessional interest rates and processing fee waivers on electric vehicle financing.' }
+    ],
+    eligibilityCriteria: [
+      { criteria: 'Age Requirement', detail: '21 to 65 years for salaried individuals; 21 to 70 years for self-employed professionals' },
+      { criteria: 'Minimum Monthly Income', detail: 'Minimum net monthly income of ₹25,000 for salaried and ₹3,00,000 annual ITR for self-employed' },
+      { criteria: 'Employment Vintage', detail: 'Minimum 1 year total work experience with at least 6 months in current employment' },
+      { criteria: 'Credit Score Benchmark', detail: 'CIBIL score of 700+ preferred for maximum on-road loan sanction and lowest interest rates' },
+      { criteria: 'Eligible Vehicles', detail: 'New private cars, certified pre-owned cars, electric four-wheelers, and commercial vehicles' }
+    ],
+    requiredDocuments: [
+      { category: 'Identity & Address Proof', items: ['Aadhaar Card (DigiLocker verified)', 'PAN Card (Mandatory for credit verification)', 'Valid Driving License or Passport'] },
+      { category: 'Income Proof (Salaried)', items: ['Latest 3 months salary slips with deductions', 'Latest 6 months bank statement showing salary credits', 'Form 16 or latest ITR'] },
+      { category: 'Income Proof (Self-Employed)', items: ['Latest 2 years Income Tax Returns with computation', 'Audited Balance Sheet & Profit-Loss Account', 'Operating bank account statements for past 6 to 12 months'] },
+      { category: 'Vehicle Documents', items: ['Proforma Invoice / Quotation from authorized dealer', 'Registration Certificate (RC) & Valuation copy for used cars'] }
+    ],
+    applicationProcess: [
+      { stepNumber: 1, stepTitle: 'Select Car & Loan Details', stepDescription: 'Provide preferred car model details, dealer quotation, and required funding amount.' },
+      { stepNumber: 2, stepTitle: 'Multi-Bank Quote Matching', stepDescription: 'We compare interest margins and processing terms across 20+ auto lenders.' },
+      { stepNumber: 3, stepTitle: 'Digital Document Verification', stepDescription: 'Submit KYC and income documents via paperless channels for swift underwriting.' },
+      { stepNumber: 4, stepTitle: 'Direct Dealer Disbursal', stepDescription: 'Loan agreement executed and funds disbursed directly to the car dealership for vehicle delivery.' }
+    ],
+    faqs: [
+      { question: 'What is the maximum loan tenure available for a vehicle loan?', answer: 'Most banks and NBFC partners offer repayment tenures up to 7 years (84 months) for new car purchases and up to 5 years (60 months) for pre-owned cars.' },
+      { question: 'Can I get 100% on-road financing for my car?', answer: 'Yes, select banking partners offer up to 100% on-road financing covering ex-showroom price, RTO registration, and comprehensive insurance for eligible applicants with high credit scores.' },
+      { question: 'Is a vehicle loan available for used or second-hand cars?', answer: 'Yes. We offer pre-owned vehicle loans for cars up to 10 years old (at loan maturity), subject to physical vehicle valuation and clear title.' },
+      { question: 'Can I prepay or foreclose my vehicle loan before tenure ends?', answer: 'Yes. Most lenders allow foreclosure or part-prepayment after completing 6 monthly EMIs, subject to applicable lender terms.' },
+      { question: 'Are there special benefits or lower interest rates for Electric Vehicles (EVs)?', answer: 'Yes. Several of our partner banks offer green auto loans with 0.25% to 0.50% interest rate concessions and reduced processing fees for electric vehicle purchases.' }
     ],
     isPublished: true
   }

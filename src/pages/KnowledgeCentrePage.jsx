@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { BookOpen, HelpCircle, FileCheck, ArrowRight, ShieldCheck, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { blogService, contentService } from '../services/api';
+import { contentService } from '../services/api';
+import { BLOG_ARTICLES } from '../data/blogData';
 
 const KnowledgeCentrePage = () => {
   const [blogs, setBlogs] = useState([]);
@@ -10,13 +11,13 @@ const KnowledgeCentrePage = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    Promise.all([
-      blogService.getBlogs({ limit: 6 }).catch(() => ({ data: { data: { blogs: [] } } })),
-      contentService.getFAQs().catch(() => ({ data: { data: [] } }))
-    ]).then(([blogRes, faqRes]) => {
-      if (blogRes.data?.data?.blogs) setBlogs(blogRes.data.data.blogs);
-      if (faqRes.data?.data) setFaqs(faqRes.data.data);
-    }).finally(() => setLoading(false));
+    setBlogs(BLOG_ARTICLES.slice(0, 6));
+    contentService.getFAQs()
+      .then(faqRes => {
+        if (faqRes.data?.data) setFaqs(faqRes.data.data);
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
   }, []);
 
   return (
@@ -99,13 +100,13 @@ const KnowledgeCentrePage = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {blogs.map(blog => (
-              <div key={blog._id} className="p-5 rounded-2xl bg-slate-50 border border-slate-100 flex flex-col justify-between">
+              <div key={blog.id || blog._id} className="p-5 rounded-2xl bg-slate-50 border border-slate-100 flex flex-col justify-between">
                 <div>
                   <span className="text-[10px] font-bold text-brand-orange uppercase">{blog.category}</span>
                   <h3 className="font-bold text-slate-900 text-sm mt-1.5 line-clamp-2">
                     <Link to={`/blogs/${blog.slug}`} className="hover:text-brand-blue">{blog.title}</Link>
                   </h3>
-                  <p className="text-xs text-slate-500 mt-2 line-clamp-3 leading-relaxed">{blog.summary}</p>
+                  <p className="text-xs text-slate-500 mt-2 line-clamp-3 leading-relaxed">{blog.shortDescription || blog.summary}</p>
                 </div>
                 <div className="mt-4 pt-3 border-t border-slate-200/70">
                   <Link to={`/blogs/${blog.slug}`} className="text-xs font-bold text-brand-blue hover:underline flex items-center">

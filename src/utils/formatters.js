@@ -20,5 +20,6 @@ export const LOAN_SLUG_MAP = {
   'home-loan': 'Home Loan',
   'loan-against-property': 'Loan Against Property',
   'education-loan': 'Education Loan',
-  'gold-loan': 'Gold Loan'
+  'gold-loan': 'Gold Loan',
+  'vehicle-loan': 'Vehicle Loan'
 };
